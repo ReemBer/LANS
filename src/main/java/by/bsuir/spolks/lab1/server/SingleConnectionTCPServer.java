@@ -16,11 +16,10 @@ import java.net.Socket;
 public class SingleConnectionTCPServer implements SpolksServer {
 
     private final ServerSocket socket;
-    private final int port;
     private final RequestHandler requestHandler;
 
     public SingleConnectionTCPServer() throws IOException {
-        port = 1488;
+        final int port = 1488;
         socket = new ServerSocket(port);
         requestHandler = new SingleThreadRequestHandler();
     }
@@ -30,9 +29,7 @@ public class SingleConnectionTCPServer implements SpolksServer {
             while (true) {
                 Socket client = socket.accept();
                 requestHandler.setClientSocket(client);
-                requestHandler.start();
-                client.bind();
-
+                requestHandler.initAndStartDialog();
             }
         } catch (IOException e) {
             throw new ServerException("Exception during waiting client connection.", e);

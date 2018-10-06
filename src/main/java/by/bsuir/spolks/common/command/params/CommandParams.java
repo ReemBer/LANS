@@ -17,11 +17,9 @@ import java.util.Set;
  */
 public class CommandParams {
 
-    private Map<String, String> stringParams = Maps.newHashMap();
-    private Set<String> booleanParams = Sets.newHashSet();
     private List<Pair<String, Object>> orderedParams = Lists.newArrayList();
 
     public CommandParams(String ... parameters) {
-        Arrays.stream(parameters).forEach(param -> );
+
     }
 }

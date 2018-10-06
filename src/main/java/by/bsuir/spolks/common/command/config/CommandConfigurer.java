@@ -1,5 +1,6 @@
 package by.bsuir.spolks.common.command.config;
 
+import by.bsuir.spolks.common.command.context.CommandContext;
 import by.bsuir.spolks.common.command.handler.CommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.CloseCommand;
 import by.bsuir.spolks.common.command.handler.impl.EchoCommand;
@@ -16,8 +17,8 @@ import java.util.*;
  */
 public final class CommandConfigurer {
 
-    public static final Map<String, CommandHandler<? extends CommandParams, ? extends CommandResponse>> COMMANDS =
-            new HashMap<String, CommandHandler<? extends CommandParams, ? extends CommandResponse>>() {
+    public static final Map<String, CommandHandler<? extends CommandResponse>> COMMANDS =
+            new HashMap<String, CommandHandler<? extends CommandResponse>>() {
         {
             put(CommandConstants.ECHO, new EchoCommand());
             put(CommandConstants.TIME, new TimeCommand());

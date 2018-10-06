@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 
 /**
  * @author v.tarasevich
@@ -15,7 +16,7 @@ import java.io.OutputStream;
 @Getter
 @Setter
 public class CommandContext {
-    private OutputStream clientOutputStream;
-    private InputStream clientInputStream;
+    private Socket clientSocket;
+    private String command;
     private CommandComponents commandComponents;
 }

@@ -16,5 +16,5 @@ public abstract class RequestHandler {
 
     @Getter @Setter protected Socket clientSocket;
 
-    public abstract void start();
+    public abstract void initAndStartDialog();
 }

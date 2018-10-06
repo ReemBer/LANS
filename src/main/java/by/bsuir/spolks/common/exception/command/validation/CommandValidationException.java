@@ -1,4 +1,4 @@
-package by.bsuir.spolks.common.exception.command;
+package by.bsuir.spolks.common.exception.command.validation;
 
 /**
  * @author v.tarasevich
