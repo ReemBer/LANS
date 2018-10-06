@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>by.bsuir.spolks</groupId>
+    <artifactId>server</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>SPOLKS-server</name>
+    <description>Implement TCP, UDP, ICMP and other shit or die.</description>
+
+    <developers>
+        <developer>
+            <id>opasen</id>
+            <name>Tarasevich Uladzislau</name>
+            <email>tarasevich.vlad.97@gmail.com</email>
+            <organization>BSUIR</organization>
+            <organizationUrl>https://www.bsuir.by</organizationUrl>
+            <roles>
+                <role>KING</role>
+                <role>GOD</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>26.0-jre</version>
+        </dependency>
+    </dependencies>
+
+</project>
