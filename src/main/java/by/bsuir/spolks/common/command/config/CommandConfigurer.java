@@ -1,11 +1,9 @@
 package by.bsuir.spolks.common.command.config;
 
-import by.bsuir.spolks.common.command.context.CommandContext;
 import by.bsuir.spolks.common.command.handler.CommandHandler;
-import by.bsuir.spolks.common.command.handler.impl.CloseCommand;
-import by.bsuir.spolks.common.command.handler.impl.EchoCommand;
-import by.bsuir.spolks.common.command.handler.impl.TimeCommand;
-import by.bsuir.spolks.common.command.params.CommandParams;
+import by.bsuir.spolks.common.command.handler.impl.CloseCommandHandler;
+import by.bsuir.spolks.common.command.handler.impl.EchoCommandHandler;
+import by.bsuir.spolks.common.command.handler.impl.TimeCommandHandler;
 import by.bsuir.spolks.common.command.response.CommandResponse;
 
 import java.util.*;
@@ -20,9 +18,9 @@ public final class CommandConfigurer {
     public static final Map<String, CommandHandler<? extends CommandResponse>> COMMANDS =
             new HashMap<String, CommandHandler<? extends CommandResponse>>() {
         {
-            put(CommandConstants.ECHO, new EchoCommand());
-            put(CommandConstants.TIME, new TimeCommand());
-            put(CommandConstants.CLOSE, new CloseCommand());
+            put(CommandConstants.ECHO, new EchoCommandHandler());
+            put(CommandConstants.TIME, new TimeCommandHandler());
+            put(CommandConstants.CLOSE, new CloseCommandHandler());
         }
     };
 }

@@ -2,13 +2,9 @@ package by.bsuir.spolks.common.command.params;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import javafx.util.Pair;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author v.tarasevich
@@ -17,9 +13,30 @@ import java.util.Set;
  */
 public class CommandParams {
 
-    private List<Pair<String, Object>> orderedParams = Lists.newArrayList();
+    private Map<String, Object> namedParams = Maps.newLinkedHashMap();
+    private List<Object> orderedParams = Lists.newArrayList();
 
-    public CommandParams(String ... parameters) {
+    public CommandParams(List<Pair<String, Object>> parameters) {
+        parameters.forEach(
+                parameter -> {
+                    namedParams.put(
+                            parameter.getKey(),
+                            parameter.getValue()
+                    );
+                    orderedParams.add(parameter.getValue());
+                }
+        );
+    }
 
+    public CommandParams() {
+        namedParams = Collections.emptyMap();
+    }
+
+    public Object getParam(String key) {
+        return namedParams.get(key);
+    }
+
+    public Object getParam(int index) {
+        return orderedParams.get(index);
     }
 }

@@ -1,6 +1,7 @@
 package by.bsuir.spolks.common.command.validator.impl;
 
 import by.bsuir.spolks.common.command.Command;
+import by.bsuir.spolks.common.command.CommandNames;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
 import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
 import by.bsuir.spolks.common.exception.command.validation.IllegalTimeFormatException;
@@ -15,12 +16,16 @@ public class TimeCommandValidator extends CommandValidator {
 
     public static final String VALID_TIME_FORMAT = "time <No parameters>";
 
-    private static final String VALID_TIME_FORMAT_REGEX = String.join(
-            "",
-            S_OPTIONAL,
-            TIME.getName(),
-            S_OPTIONAL
-    );
+    private final String VALID_TIME_FORMAT_REGEX;
+
+    public TimeCommandValidator() {
+        VALID_TIME_FORMAT_REGEX = String.join(
+                "",
+                S_OPTIONAL,
+                CommandNames.TIME,
+                S_OPTIONAL
+        );
+    }
 
     @Override
     public void validate(String command) throws CommandValidationException {

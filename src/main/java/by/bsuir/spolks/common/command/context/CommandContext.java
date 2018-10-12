@@ -1,6 +1,6 @@
 package by.bsuir.spolks.common.command.context;
 
-import by.bsuir.spolks.common.command.component.CommandComponents;
+import by.bsuir.spolks.common.command.params.CommandParams;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,18 @@ import java.net.Socket;
 @Getter
 @Setter
 public class CommandContext {
+
     private Socket clientSocket;
+    private InputStream socketInputStream;
+    private OutputStream socketOutputStream;
     private String command;
-    private CommandComponents commandComponents;
+    private CommandParams params;
+
+    public Object getParam(int index) {
+        return params.getParam(index);
+    }
+
+    public Object getParam(String key) {
+        return params.getParam(key);
+    }
 }

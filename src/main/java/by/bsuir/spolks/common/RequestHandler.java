@@ -14,7 +14,9 @@ import java.net.Socket;
 @NoArgsConstructor
 public abstract class RequestHandler {
 
-    @Getter @Setter protected Socket clientSocket;
+    @Getter protected Socket clientSocket;
 
-    public abstract void initAndStartDialog();
+    public void initAndStartDialog(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
 }

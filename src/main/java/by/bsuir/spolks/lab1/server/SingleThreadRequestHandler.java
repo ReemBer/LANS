@@ -3,15 +3,16 @@ package by.bsuir.spolks.lab1.server;
 import by.bsuir.spolks.common.RequestHandler;
 import by.bsuir.spolks.common.command.Command;
 import by.bsuir.spolks.common.command.context.CommandContext;
-import by.bsuir.spolks.common.command.util.CommandUtil;
+import by.bsuir.spolks.common.command.util.CommandUtils;
+import by.bsuir.spolks.common.exception.command.execution.CommandExecutionException;
+import by.bsuir.spolks.common.exception.command.parsing.CommandParsingException;
 import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
 import lombok.NoArgsConstructor;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 
-import static by.bsuir.spolks.common.command.Command.COMMAND_MAPPING;
+import static by.bsuir.spolks.common.command.util.CommandUtils.COMMAND_MAPPING;
 
 /**
  * @author v.tarasevich
@@ -23,7 +24,9 @@ public class SingleThreadRequestHandler extends RequestHandler {
 
     private CommandContext context = new CommandContext();
 
-    public void initAndStartDialog() {
+    @Override
+    public void initAndStartDialog(Socket clientSocket) {
+        super.initAndStartDialog(clientSocket);
         try {
             startDialog();
         } catch (IOException ex) {
@@ -32,18 +35,26 @@ public class SingleThreadRequestHandler extends RequestHandler {
     }
 
     private void startDialog() throws IOException {
-        try(DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-            DataInputStream in = new DataInputStream(clientSocket.getInputStream())) {
+        try(OutputStream out = clientSocket.getOutputStream();
+            InputStream in = clientSocket.getInputStream()) {
             context.setClientSocket(clientSocket);
+            context.setSocketInputStream(in);
+            context.setSocketOutputStream(out);
+            BufferedReader dataIn = new BufferedReader(new InputStreamReader(in));
             while (!clientSocket.isClosed()) {
                 try {
-                    String request = in.readUTF();
-                    Command command = COMMAND_MAPPING.get(CommandUtil.parseName(request));
+                    String request = dataIn.readLine();
+                    Command  command = COMMAND_MAPPING.get(CommandUtils.parseName(request));
                     command.getValidator().validate(request);
-                } catch (CommandValidationException e) {
+                    context.setCommand(request);
+                    context.setParams(command.getParser().parse(request));
+                    command.getHandler().handle(context);
+                } catch (CommandValidationException | CommandParsingException | CommandExecutionException e) {
                     out.write(e.getMessage().getBytes());
                 }
             }
+        } finally {
+            clientSocket.close();
         }
     }
 }

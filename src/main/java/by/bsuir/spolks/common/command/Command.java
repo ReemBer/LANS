@@ -1,9 +1,10 @@
 package by.bsuir.spolks.common.command;
 
 import by.bsuir.spolks.common.command.handler.CommandHandler;
-import by.bsuir.spolks.common.command.handler.impl.CloseCommand;
-import by.bsuir.spolks.common.command.handler.impl.EchoCommand;
-import by.bsuir.spolks.common.command.handler.impl.TimeCommand;
+import by.bsuir.spolks.common.command.handler.impl.CloseCommandHandler;
+import by.bsuir.spolks.common.command.handler.impl.EchoCommandHandler;
+import by.bsuir.spolks.common.command.handler.impl.TimeCommandHandler;
+import by.bsuir.spolks.common.command.parser.CommandParser;
 import by.bsuir.spolks.common.command.response.CommandResponse;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
 import by.bsuir.spolks.common.command.validator.impl.CloseCommandValidator;
@@ -16,6 +17,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static by.bsuir.spolks.common.command.parser.CommandParser.NO_PARAMS_PARSER;
+
 /**
  * @author v2.tarasevich
  * @since 6.10.18 20:48
@@ -24,20 +27,29 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum Command {
 
-    CLOSE("close", new CloseCommand(), new CloseCommandValidator()),
-    TIME("time", new TimeCommand(), new TimeCommandValidator()),
-    ECHO("echo", new EchoCommand(), new EchoCommandValidator());
+    CLOSE(
+            CommandNames.CLOSE,
+            new CloseCommandHandler(),
+            new CloseCommandValidator(),
+            NO_PARAMS_PARSER
+    ),
 
-    public static final Map<String, Command> COMMAND_MAPPING = Arrays
-            .stream(Command.values())
-            .collect(
-                    Collectors.toMap(
-                            Command::getName,
-                            command -> command
-                    )
-            );
+    TIME(
+            CommandNames.TIME,
+            new TimeCommandHandler(),
+            new TimeCommandValidator(),
+            NO_PARAMS_PARSER
+    ),
+
+    ECHO(
+            CommandNames.ECHO,
+            new EchoCommandHandler(),
+            new EchoCommandValidator(),
+            NO_PARAMS_PARSER
+    );
 
     private String name;
     private CommandHandler<? extends CommandResponse> handler;
     private CommandValidator validator;
+    private CommandParser parser;
 }

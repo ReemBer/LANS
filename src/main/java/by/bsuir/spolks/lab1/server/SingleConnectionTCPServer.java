@@ -28,8 +28,7 @@ public class SingleConnectionTCPServer implements SpolksServer {
         try {
             while (true) {
                 Socket client = socket.accept();
-                requestHandler.setClientSocket(client);
-                requestHandler.initAndStartDialog();
+                requestHandler.initAndStartDialog(client);
             }
         } catch (IOException e) {
             throw new ServerException("Exception during waiting client connection.", e);
