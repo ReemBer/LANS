@@ -2,12 +2,10 @@ package by.bsuir.spolks.common.command.handler.impl;
 
 import by.bsuir.spolks.common.command.context.CommandContext;
 import by.bsuir.spolks.common.command.handler.CommandHandler;
-import by.bsuir.spolks.common.command.params.TimeParams;
 import by.bsuir.spolks.common.command.response.TimeResponse;
-import by.bsuir.spolks.common.exception.command.execution.CommandExecutionException;
+import by.bsuir.spolks.common.exception.command.CommandExecutionException;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

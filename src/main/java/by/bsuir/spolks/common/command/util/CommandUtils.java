@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -25,9 +26,13 @@ public final class CommandUtils {
             );
 
     public static String parseName(String command) {
-        String trimmedCommand = command.trim();
-        int firstSpaceIndex = trimmedCommand.indexOf(' ');
-        firstSpaceIndex = firstSpaceIndex == -1 ? trimmedCommand.length(): firstSpaceIndex;
-        return trimmedCommand.substring(0, firstSpaceIndex);
+        return Optional
+                .ofNullable(command)
+                .map(String::trim)
+                .map(cmd -> {
+                    int firstSpace = cmd.indexOf(' ');
+                    firstSpace = firstSpace == -1 ? cmd.length() : firstSpace;
+                    return cmd.substring(0, firstSpace);
+                }).orElse("");
     }
 }

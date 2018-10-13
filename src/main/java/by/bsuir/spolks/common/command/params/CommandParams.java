@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * @author v.tarasevich
@@ -16,16 +17,21 @@ public class CommandParams {
     private Map<String, Object> namedParams = Maps.newLinkedHashMap();
     private List<Object> orderedParams = Lists.newArrayList();
 
-    public CommandParams(List<Pair<String, Object>> parameters) {
-        parameters.forEach(
-                parameter -> {
-                    namedParams.put(
-                            parameter.getKey(),
-                            parameter.getValue()
-                    );
-                    orderedParams.add(parameter.getValue());
-                }
-        );
+    public CommandParams(List<Object> parameters) {
+        orderedParams.addAll(parameters);
+        IntStream
+                .range(0, parameters.size())
+                .forEach(i -> namedParams
+                                .put(
+                                        String.valueOf(i),
+                                        orderedParams.get(i)
+                                )
+                );
+    }
+
+    public CommandParams(Object parameter) {
+        orderedParams.add(parameter);
+        namedParams.put("0", parameter);
     }
 
     public CommandParams() {

@@ -4,13 +4,16 @@ import by.bsuir.spolks.common.RequestHandler;
 import by.bsuir.spolks.common.command.Command;
 import by.bsuir.spolks.common.command.context.CommandContext;
 import by.bsuir.spolks.common.command.util.CommandUtils;
-import by.bsuir.spolks.common.exception.command.execution.CommandExecutionException;
-import by.bsuir.spolks.common.exception.command.parsing.CommandParsingException;
+import by.bsuir.spolks.common.exception.command.CommandException;
+import by.bsuir.spolks.common.exception.command.CommandExecutionException;
+import by.bsuir.spolks.common.exception.command.CommandNotFoundException;
+import by.bsuir.spolks.common.exception.command.CommandParsingException;
 import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
 import lombok.NoArgsConstructor;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Optional;
 
 import static by.bsuir.spolks.common.command.util.CommandUtils.COMMAND_MAPPING;
 
@@ -44,13 +47,16 @@ public class SingleThreadRequestHandler extends RequestHandler {
             while (!clientSocket.isClosed()) {
                 try {
                     String request = dataIn.readLine();
-                    Command  command = COMMAND_MAPPING.get(CommandUtils.parseName(request));
+                    String commandName = CommandUtils.parseName(request);
+                    Command command = Optional.ofNullable(COMMAND_MAPPING.get(commandName))
+                            .orElseThrow(() -> new CommandNotFoundException(commandName));
                     command.getValidator().validate(request);
                     context.setCommand(request);
                     context.setParams(command.getParser().parse(request));
                     command.getHandler().handle(context);
-                } catch (CommandValidationException | CommandParsingException | CommandExecutionException e) {
+                } catch (CommandException e) {
                     out.write(e.getMessage().getBytes());
+                    out.write("\n".getBytes());
                 }
             }
         } finally {

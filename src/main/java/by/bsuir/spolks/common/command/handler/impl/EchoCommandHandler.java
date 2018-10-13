@@ -2,9 +2,8 @@ package by.bsuir.spolks.common.command.handler.impl;
 
 import by.bsuir.spolks.common.command.context.CommandContext;
 import by.bsuir.spolks.common.command.handler.CommandHandler;
-import by.bsuir.spolks.common.command.params.EchoParams;
 import by.bsuir.spolks.common.command.response.EchoResponse;
-import by.bsuir.spolks.common.exception.command.execution.CommandExecutionException;
+import by.bsuir.spolks.common.exception.command.CommandExecutionException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,12 +19,7 @@ public class EchoCommandHandler implements CommandHandler<EchoResponse> {
     public void handle(CommandContext context) {
         OutputStream socketOut = context.getSocketOutputStream();
         try {
-            socketOut.write(
-                    context
-                            .getParam(0)
-                            .toString()
-                            .getBytes()
-            );
+            socketOut.write(context.getParam(0).toString().getBytes());
         } catch (IOException e) {
             throw new CommandExecutionException();
         }

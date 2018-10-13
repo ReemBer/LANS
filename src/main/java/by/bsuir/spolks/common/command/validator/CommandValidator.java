@@ -11,6 +11,13 @@ import java.util.regex.Pattern;
  */
 public abstract class CommandValidator {
 
+    public static final CommandValidator EMPTY_VALIDATOR = new CommandValidator() {
+        @Override
+        public void validate(String command) throws CommandValidationException {
+            // Nothing to do.
+        }
+    };
+
     protected static final String S_OPTIONAL = "\\s*";
     protected static final String S_NECESSARY = "\\s+";
 

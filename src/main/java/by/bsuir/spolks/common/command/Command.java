@@ -5,6 +5,7 @@ import by.bsuir.spolks.common.command.handler.impl.CloseCommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.EchoCommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.TimeCommandHandler;
 import by.bsuir.spolks.common.command.parser.CommandParser;
+import by.bsuir.spolks.common.command.parser.EchoCommandParser;
 import by.bsuir.spolks.common.command.response.CommandResponse;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
 import by.bsuir.spolks.common.command.validator.impl.CloseCommandValidator;
@@ -17,7 +18,9 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static by.bsuir.spolks.common.command.handler.CommandHandler.EMPTY_HANDLER;
 import static by.bsuir.spolks.common.command.parser.CommandParser.NO_PARAMS_PARSER;
+import static by.bsuir.spolks.common.command.validator.CommandValidator.EMPTY_VALIDATOR;
 
 /**
  * @author v2.tarasevich
@@ -26,6 +29,13 @@ import static by.bsuir.spolks.common.command.parser.CommandParser.NO_PARAMS_PARS
 @Getter
 @AllArgsConstructor
 public enum Command {
+
+    EMPTY(
+            CommandNames.EMPTY,
+            EMPTY_HANDLER,
+            EMPTY_VALIDATOR,
+            NO_PARAMS_PARSER
+    ),
 
     CLOSE(
             CommandNames.CLOSE,
@@ -45,7 +55,7 @@ public enum Command {
             CommandNames.ECHO,
             new EchoCommandHandler(),
             new EchoCommandValidator(),
-            NO_PARAMS_PARSER
+            new EchoCommandParser()
     );
 
     private String name;
