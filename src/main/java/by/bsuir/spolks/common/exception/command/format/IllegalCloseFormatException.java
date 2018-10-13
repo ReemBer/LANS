@@ -1,6 +1,6 @@
-package by.bsuir.spolks.common.exception.command.validation;
+package by.bsuir.spolks.common.exception.command.format;
 
-import static by.bsuir.spolks.common.command.Command.CLOSE;
+import static by.bsuir.spolks.common.command.CommandNames.CLOSE;
 import static by.bsuir.spolks.common.command.validator.impl.CloseCommandValidator.VALID_CLOSE_FORMAT;
 
 /**
@@ -10,6 +10,6 @@ import static by.bsuir.spolks.common.command.validator.impl.CloseCommandValidato
 public class IllegalCloseFormatException extends IllegalCommandFormatException {
 
     public IllegalCloseFormatException() {
-        super(CLOSE.getName(), VALID_CLOSE_FORMAT);
+        super(CLOSE, VALID_CLOSE_FORMAT);
     }
 }

@@ -1,6 +1,6 @@
-package by.bsuir.spolks.common.exception.command.validation;
+package by.bsuir.spolks.common.exception.command.format;
 
-import static by.bsuir.spolks.common.command.Command.ECHO;
+import static by.bsuir.spolks.common.command.CommandNames.ECHO;
 import static by.bsuir.spolks.common.command.validator.impl.EchoCommandValidator.VALID_ECHO_FORMAT;
 
 /**
@@ -9,6 +9,6 @@ import static by.bsuir.spolks.common.command.validator.impl.EchoCommandValidator
  */
 public class IllegalEchoFormatException extends IllegalCommandFormatException {
     public IllegalEchoFormatException() {
-        super(ECHO.getName(), VALID_ECHO_FORMAT);
+        super(ECHO, VALID_ECHO_FORMAT);
     }
 }

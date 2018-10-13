@@ -2,21 +2,19 @@ package by.bsuir.spolks.common.command;
 
 import by.bsuir.spolks.common.command.handler.CommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.CloseCommandHandler;
+import by.bsuir.spolks.common.command.handler.impl.DownloadCommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.EchoCommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.TimeCommandHandler;
 import by.bsuir.spolks.common.command.parser.CommandParser;
-import by.bsuir.spolks.common.command.parser.EchoCommandParser;
-import by.bsuir.spolks.common.command.response.CommandResponse;
+import by.bsuir.spolks.common.command.parser.impl.DownloadCommandParser;
+import by.bsuir.spolks.common.command.parser.impl.EchoCommandParser;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
 import by.bsuir.spolks.common.command.validator.impl.CloseCommandValidator;
+import by.bsuir.spolks.common.command.validator.impl.DownloadCommandValidator;
 import by.bsuir.spolks.common.command.validator.impl.EchoCommandValidator;
 import by.bsuir.spolks.common.command.validator.impl.TimeCommandValidator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static by.bsuir.spolks.common.command.handler.CommandHandler.EMPTY_HANDLER;
 import static by.bsuir.spolks.common.command.parser.CommandParser.NO_PARAMS_PARSER;
@@ -56,10 +54,18 @@ public enum Command {
             new EchoCommandHandler(),
             new EchoCommandValidator(),
             new EchoCommandParser()
+    ),
+
+    DOWNLOAD(
+            CommandNames.DOWNLOAD,
+            new DownloadCommandHandler(),
+            new DownloadCommandValidator(),
+            new DownloadCommandParser()
     );
 
+
     private String name;
-    private CommandHandler<? extends CommandResponse> handler;
+    private CommandHandler handler;
     private CommandValidator validator;
     private CommandParser parser;
 }

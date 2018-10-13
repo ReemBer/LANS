@@ -1,10 +1,9 @@
 package by.bsuir.spolks.common.command.validator.impl;
 
-import by.bsuir.spolks.common.command.Command;
 import by.bsuir.spolks.common.command.CommandNames;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
-import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
-import by.bsuir.spolks.common.exception.command.validation.IllegalTimeFormatException;
+import by.bsuir.spolks.common.exception.command.CommandValidationException;
+import by.bsuir.spolks.common.exception.command.format.IllegalTimeFormatException;
 
 import static by.bsuir.spolks.common.command.Command.TIME;
 

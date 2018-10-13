@@ -1,6 +1,7 @@
-package by.bsuir.spolks.common.command.parser;
+package by.bsuir.spolks.common.command.parser.impl;
 
 import by.bsuir.spolks.common.command.params.CommandParams;
+import by.bsuir.spolks.common.command.parser.CommandParser;
 import org.checkerframework.checker.nullness.Opt;
 
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.stream.Stream;
  * @since 13.10.18 16:26
  */
 public class EchoCommandParser implements CommandParser {
+
     @Override
     public CommandParams parse(String commandString) {
         final String echoParam = commandString.trim().substring(4).trim();

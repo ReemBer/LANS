@@ -1,4 +1,6 @@
-package by.bsuir.spolks.common.exception.command.validation;
+package by.bsuir.spolks.common.exception.command.format;
+
+import by.bsuir.spolks.common.exception.command.CommandValidationException;
 
 /**
  * @author v2.tarasevich
@@ -8,7 +10,7 @@ public class IllegalCommandFormatException extends CommandValidationException {
 
     private static final String ILLEGAL_FORMAT_MESSAGE_PATTERN = "Illegal '%s' format.\nLegal is '%s'";
 
-    public IllegalCommandFormatException(String commandName, String validFormat) {
+    IllegalCommandFormatException(String commandName, String validFormat) {
         super(String.format(ILLEGAL_FORMAT_MESSAGE_PATTERN, commandName, validFormat));
     }
 }

@@ -5,10 +5,7 @@ import by.bsuir.spolks.common.command.Command;
 import by.bsuir.spolks.common.command.context.CommandContext;
 import by.bsuir.spolks.common.command.util.CommandUtils;
 import by.bsuir.spolks.common.exception.command.CommandException;
-import by.bsuir.spolks.common.exception.command.CommandExecutionException;
 import by.bsuir.spolks.common.exception.command.CommandNotFoundException;
-import by.bsuir.spolks.common.exception.command.CommandParsingException;
-import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
 import lombok.NoArgsConstructor;
 
 import java.io.*;
@@ -44,7 +41,7 @@ public class SingleThreadRequestHandler extends RequestHandler {
             context.setSocketInputStream(in);
             context.setSocketOutputStream(out);
             BufferedReader dataIn = new BufferedReader(new InputStreamReader(in));
-            while (!clientSocket.isClosed()) {
+            while (!clientSocket.isClosed() || !clientSocket.isConnected()) {
                 try {
                     String request = dataIn.readLine();
                     String commandName = CommandUtils.parseName(request);

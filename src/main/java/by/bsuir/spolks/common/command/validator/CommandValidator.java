@@ -1,7 +1,7 @@
 package by.bsuir.spolks.common.command.validator;
 
-import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
-import by.bsuir.spolks.common.exception.command.validation.IllegalCommandFormatException;
+import by.bsuir.spolks.common.exception.command.CommandValidationException;
+import by.bsuir.spolks.common.exception.command.format.IllegalCommandFormatException;
 
 import java.util.regex.Pattern;
 
@@ -18,8 +18,9 @@ public abstract class CommandValidator {
         }
     };
 
-    protected static final String S_OPTIONAL = "\\s*";
-    protected static final String S_NECESSARY = "\\s+";
+    protected static final String S_OPTIONAL = "[\\s\\t]*";
+    protected static final String S_NECESSARY = "[\\s\\t]+";
+    protected static final String STRING_LITERAL_REGEX = "((\\w+)|(\"[^\"]+\")|('[^']+'))";
 
     protected void validateCommandFormat(String command, String validFormatRegex,
                                        IllegalCommandFormatException formatException)

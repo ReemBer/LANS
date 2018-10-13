@@ -1,6 +1,4 @@
-package by.bsuir.spolks.common.exception.command.validation;
-
-import by.bsuir.spolks.common.exception.command.CommandException;
+package by.bsuir.spolks.common.exception.command;
 
 /**
  * @author v.tarasevich

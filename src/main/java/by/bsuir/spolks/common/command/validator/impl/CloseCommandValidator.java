@@ -2,8 +2,8 @@ package by.bsuir.spolks.common.command.validator.impl;
 
 import by.bsuir.spolks.common.command.CommandNames;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
-import by.bsuir.spolks.common.exception.command.validation.CommandValidationException;
-import by.bsuir.spolks.common.exception.command.validation.IllegalCloseFormatException;
+import by.bsuir.spolks.common.exception.command.CommandValidationException;
+import by.bsuir.spolks.common.exception.command.format.IllegalCloseFormatException;
 
 import static by.bsuir.spolks.common.command.Command.CLOSE;
 
