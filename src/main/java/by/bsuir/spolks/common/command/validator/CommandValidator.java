@@ -20,7 +20,7 @@ public abstract class CommandValidator {
 
     protected static final String S_OPTIONAL = "[\\s\\t]*";
     protected static final String S_NECESSARY = "[\\s\\t]+";
-    protected static final String STRING_LITERAL_REGEX = "((\\w+)|(\"[^\"]+\")|('[^']+'))";
+    protected static final String STRING_LITERAL_REGEX = "(([^\\s\\t]+)|(\"[^\"]+\")|('[^']+'))";
 
     protected void validateCommandFormat(String command, String validFormatRegex,
                                        IllegalCommandFormatException formatException)
