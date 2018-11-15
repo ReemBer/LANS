@@ -21,6 +21,7 @@ public abstract class CommandValidator {
     protected static final String S_OPTIONAL = "[\\s\\t]*";
     protected static final String S_NECESSARY = "[\\s\\t]+";
     protected static final String STRING_LITERAL_REGEX = "(([^\\s\\t]+)|(\"[^\"]+\")|('[^']+'))";
+    protected static final String INTEGER_LITERAL_REGEX = Pattern.compile("1?\\d{1,9}").pattern();
 
     protected void validateCommandFormat(String command, String validFormatRegex,
                                        IllegalCommandFormatException formatException)

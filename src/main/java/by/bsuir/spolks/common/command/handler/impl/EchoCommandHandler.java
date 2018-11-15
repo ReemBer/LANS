@@ -18,7 +18,7 @@ public class EchoCommandHandler implements CommandHandler {
     public void handle(CommandContext context) {
         OutputStream socketOut = context.getSocketOutputStream();
         try {
-            socketOut.write(context.getParam(0).toString().getBytes());
+            socketOut.write((context.getParam(0).toString() + "\n").getBytes());
         } catch (IOException e) {
             throw new CommandExecutionException();
         }

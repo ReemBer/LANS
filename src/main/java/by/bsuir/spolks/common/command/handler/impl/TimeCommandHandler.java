@@ -16,12 +16,13 @@ import java.time.format.DateTimeFormatter;
 public class TimeCommandHandler implements CommandHandler {
 
     private static final String DEFAULT_TIME_FORMATTER = "yyy-MM-dd HH:mm:ss";
+    private static final String TIME_RESPONSE_FORMAT = "%s\n";
 
     @Override
     public void handle(CommandContext context) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMATTER);
-            context.getSocketOutputStream().write(LocalDateTime.now().format(formatter).getBytes());
+            context.getSocketOutputStream().write(String.format(TIME_RESPONSE_FORMAT, LocalDateTime.now().format(formatter)).getBytes());
         } catch (IOException e) {
             throw new CommandExecutionException();
         }

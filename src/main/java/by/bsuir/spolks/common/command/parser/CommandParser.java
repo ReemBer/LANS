@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * @author v.tarasevich
@@ -15,14 +14,15 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface CommandParser {
 
-    String SPACE_OPTIONAL = Pattern.compile("[\\s\\t]a").pattern();
-    String SPACE_NECESSARY = Pattern.compile("[\\s\\t]+").pattern();
-    String WORD = Pattern.compile("([^\\s\\t]+)").pattern();
-    String QUOTED_STRING = Pattern.compile("'([^']*)'").pattern();
-    String DOUBLE_QUOTED_STRING = Pattern.compile("\"([^\"]*)\"").pattern();
-    String BOOLEAN_PARAMETER = Pattern.compile("-\\w").pattern();
+    String SPACE_NECESSARY_REGEX = Pattern.compile("[\\s\\t]+").pattern();
+    String WORD_REGEX = Pattern.compile("([^\\s\\t'\"]+)").pattern();
+    String SINGLE_QUOTED_STRING_REGEX = Pattern.compile("'([^']*)'").pattern();
+    String DOUBLE_QUOTED_STRING_REGEX = Pattern.compile("\"([^\"]*)\"").pattern();
+    String QUOTED_STRING_REGEX = Pattern.compile("['\"]([^'\"]*)['\"]").pattern();
+    String INTEGER_PARAMETER_REGEX = Pattern.compile("\\d+").pattern();
+    String BOOLEAN_PARAMETER_REGEX = Pattern.compile("-\\w").pattern();
 
-    List<String> STRING_PARAMETER_PATTERNS = Lists.newArrayList(WORD, QUOTED_STRING, DOUBLE_QUOTED_STRING);
+    List<String> STRING_PARAMETER_PATTERNS = Lists.newArrayList(WORD_REGEX, SINGLE_QUOTED_STRING_REGEX, DOUBLE_QUOTED_STRING_REGEX);
 
     CommandParser NO_PARAMS_PARSER = command -> new CommandParams();
 

@@ -3,6 +3,7 @@ package by.bsuir.spolks.common.command.params;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import javafx.util.Pair;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -12,7 +13,11 @@ import java.util.stream.IntStream;
  * @version 1.0
  * @since 25.09.2018 23:57
  */
+@NoArgsConstructor
 public class CommandParams {
+
+    public static final String NAMED_PARAM_FILE_PATH = "filePath";
+    public static final String NAMED_PARAM_BUFFER_SIZE = "bufsize";
 
     private Map<String, Object> namedParams = Maps.newLinkedHashMap();
     private List<Object> orderedParams = Lists.newArrayList();
@@ -34,15 +39,15 @@ public class CommandParams {
         namedParams.put("0", parameter);
     }
 
-    public CommandParams() {
-        namedParams = Collections.emptyMap();
-    }
-
     public Object getParam(String key) {
         return namedParams.get(key);
     }
 
     public Object getParam(int index) {
         return orderedParams.get(index);
+    }
+
+    public void addNamedParam(String key, Object value) {
+        namedParams.put(key, value);
     }
 }

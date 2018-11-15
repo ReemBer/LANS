@@ -41,7 +41,7 @@ public class SingleThreadRequestHandler extends RequestHandler {
             context.setSocketInputStream(in);
             context.setSocketOutputStream(out);
             BufferedReader dataIn = new BufferedReader(new InputStreamReader(in));
-            while (!clientSocket.isClosed() || !clientSocket.isConnected()) {
+            while (!clientSocket.isClosed()) {
                 try {
                     String request = dataIn.readLine();
                     String commandName = CommandUtils.parseName(request);
