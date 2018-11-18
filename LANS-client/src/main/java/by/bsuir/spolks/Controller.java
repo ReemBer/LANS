@@ -61,9 +61,9 @@ public class Controller {
             hostInput.setDisable(true);
             portInput.setDisable(true);
             this.commandService = Optional.ofNullable(commandService).orElse(new CommandService(host, port));
-            writeToConsole(commandService.echo("OK!"));
+            writelnToConsole(commandService.echo("OK!"));
         } catch (ConnectionFailedException e) {
-            // dialog window with error message
+            serverOutput.appendText(e.getCause().getMessage());
         } catch (CommandSendingException e) {
             // dialog window with error message
         }
@@ -76,7 +76,7 @@ public class Controller {
             commandService = null;
             hostInput.setDisable(false);
             portInput.setDisable(false);
-            writeToConsole("Connection closed.");
+            writelnToConsole("Connection closed.");
         } catch (CommandSendingException e) {
 
         }
@@ -85,7 +85,7 @@ public class Controller {
     @FXML
     private void echo() {
         try {
-            writeToConsole(commandService.echo(commandParamsString.getText()));
+            writelnToConsole(commandService.echo(commandParamsString.getText()));
         } catch (CommandSendingException e) {
 
         }
@@ -94,14 +94,18 @@ public class Controller {
     @FXML
     private void time() {
         try {
-            writeToConsole("Time on server: " + commandService.time());
+            writelnToConsole("Time on server: " + commandService.time());
         } catch (CommandSendingException e) {
 
         }
     }
 
-    public void writeToConsole(String text) {
+    public void writelnToConsole(String text) {
         serverOutput.appendText(String.format("%s\n", text));
+    }
+
+    public void writeToConsole(String text) {
+        serverOutput.appendText(String.format("%s", text));
     }
 
     @FXML
@@ -112,7 +116,7 @@ public class Controller {
     @FXML
     private void uploadFile() {
         try {
-            commandService.upload(filePath.getText());
+            commandService.upload(filePath.getText(), Integer.valueOf(preferredBufferSize.getText()), this);
         } catch (CommandSendingException e) {
 
         }

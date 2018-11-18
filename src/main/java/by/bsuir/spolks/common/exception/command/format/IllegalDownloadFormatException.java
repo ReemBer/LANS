@@ -1,7 +1,7 @@
 package by.bsuir.spolks.common.exception.command.format;
 
 import static by.bsuir.spolks.common.command.CommandNames.DOWNLOAD;
-import static by.bsuir.spolks.common.command.validator.impl.DownloadCommandValidator.VALID_DOWNLOAD_FORMAT;
+import static by.bsuir.spolks.common.command.validator.impl.DownloadUploadCommandValidator.VALID_DOWNLOAD_FORMAT;
 
 /**
  * @author v2.tarasevich

@@ -28,6 +28,8 @@ public class SingleThreadRequestHandler extends RequestHandler {
     public void initAndStartDialog(Socket clientSocket) {
         super.initAndStartDialog(clientSocket);
         try {
+            clientSocket.setKeepAlive(true);
+            clientSocket.setOOBInline(true); // Out Of Band data will send together with simple data
             startDialog();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -43,17 +45,25 @@ public class SingleThreadRequestHandler extends RequestHandler {
             BufferedReader dataIn = new BufferedReader(new InputStreamReader(in));
             while (!clientSocket.isClosed()) {
                 try {
+                    System.out.println("Waiting for request...");
                     String request = dataIn.readLine();
+                    if (request == null) {
+                        break;
+                    }
+                    System.out.println(String.format("Received : %s", request));
+                    System.out.println("Parsing Command name...");
                     String commandName = CommandUtils.parseName(request);
                     Command command = Optional.ofNullable(COMMAND_MAPPING.get(commandName))
                             .orElseThrow(() -> new CommandNotFoundException(commandName));
+                    System.out.println(String.format("Validating %s...", command));
                     command.getValidator().validate(request);
                     context.setCommand(request);
+                    System.out.println(String.format("Parsing parameters %s...", command));
                     context.setParams(command.getParser().parse(request));
+                    System.out.println(String.format("Executing command '%s'", command));
                     command.getHandler().handle(context);
                 } catch (CommandException e) {
-                    out.write(e.getMessage().getBytes());
-                    out.write("\n".getBytes());
+                    e.printStackTrace();
                 }
             }
         } finally {

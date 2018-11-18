@@ -1,7 +1,6 @@
 package by.bsuir.spolks.client;
 
 import lombok.Getter;
-import org.checkerframework.checker.nullness.Opt;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,13 +17,14 @@ public class SocketService {
     private Socket socket;
     private BufferedReader socketReader;
     private BufferedWriter socketWriter;
-    private DataInputStream socketDIS;
+    @Getter private DataInputStream socketDIS;
+    @Getter private DataOutputStream socketDOS;
 
-    @Getter
-    private boolean connected;
+    @Getter private boolean connected;
 
     public SocketService(String host, int port) throws IOException {
         this.socket = new Socket(host, port);
+        this.socket.setOOBInline(true);
         this.socketWriter = Optional.of(socket.getOutputStream())
                 .map(OutputStreamWriter::new)
                 .map(BufferedWriter::new)
@@ -35,6 +35,9 @@ public class SocketService {
                 .get();
         this.socketDIS = Optional.of(socket.getInputStream())
                 .map(DataInputStream::new)
+                .get();
+        this.socketDOS = Optional.of(socket.getOutputStream())
+                .map(DataOutputStream::new)
                 .get();
         connected = true;
     }
@@ -49,8 +52,12 @@ public class SocketService {
         socketWriter.flush();
     }
 
-    public DataInputStream getSocketDIS() {
-        return socketDIS;
+    public OutputStream getSocketOutputStream() throws IOException {
+        return socket.getOutputStream();
+    }
+
+    public InputStream getSocketInputStream() throws IOException {
+        return socket.getInputStream();
     }
 
     public void closeConnection() throws IOException {

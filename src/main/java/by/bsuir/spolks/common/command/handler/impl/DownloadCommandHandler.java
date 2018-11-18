@@ -7,6 +7,7 @@ import by.bsuir.spolks.common.command.params.CommandParams;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 import static by.bsuir.spolks.common.command.params.CommandParams.NAMED_PARAM_BUFFER_SIZE;
@@ -19,43 +20,59 @@ import static by.bsuir.spolks.common.command.params.CommandParams.NAMED_PARAM_FI
 public class DownloadCommandHandler implements CommandHandler {
     @Override
     public void handle(CommandContext context) {
-        Socket socket = context.getClientSocket();
-        OutputStream out = context.getSocketOutputStream();
         try {
-            socket.setKeepAlive(true);
             String filePath = context.getParam(NAMED_PARAM_FILE_PATH).toString();
-            int bufferSize = (Integer) context.getParam(NAMED_PARAM_BUFFER_SIZE);
-            bufferSize = (int) Math.min(bufferSize, Files.size(Paths.get(filePath)));
-            socket.setSendBufferSize(bufferSize);
-            BufferedOutputStream bos = new BufferedOutputStream(out);
+            OutputStream out = context.getSocketOutputStream();
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] portion = new byte[bufferSize];
-            int in;
+
+            if (Files.notExists(Paths.get(filePath))) {
+                dos.writeBoolean(false);
+                return;
+            }
+
+            int bufferSize = (Integer) context.getParam(NAMED_PARAM_BUFFER_SIZE);
+            long fileSize = Files.size(Paths.get(filePath));
+            bufferSize = (int) Math.min(bufferSize, fileSize);
+
+            context.getClientSocket().setSendBufferSize(bufferSize);
+
             try {
-                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath));
                 dos.writeBoolean(true);
                 dos.writeInt(bufferSize);
-                dos.writeLong(Files.size(Paths.get(filePath)));
-                long start = System.currentTimeMillis();
-                while ((in = bis.read(portion)) != -1) {
-                    bos.write(portion,0, in);
-                    bos.flush();
-                }
-                long end = System.currentTimeMillis();
-                dos.writeLong((end - start));
-                bis.close();
-                dos.close();
-                bos.close();
-                System.out.println("File sent in : " + (end - start) + " milliseconds.");
+                dos.writeLong(fileSize);
+                long downloadTime = sendFileToClient(context.getClientSocket(), out, filePath, bufferSize, fileSize / 100L);
+                System.out.println(String.format("File sent in : %d milliseconds.", downloadTime));
             } catch (FileNotFoundException nfe) {
                 dos.writeBoolean(false);
                 dos.flush();
                 out.write(nfe.getMessage().getBytes());
                 out.flush();
-                dos.close();
             }
         }  catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private long sendFileToClient(Socket socket, OutputStream out, String filePath, int bufferSize, long percentile) throws IOException {
+        BufferedOutputStream bos = new BufferedOutputStream(out);
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath));
+        int in;
+        byte[] portion = new byte[bufferSize];
+        long start = System.currentTimeMillis();
+        long total = 0;
+        byte percents = 1;
+        while ((in = bis.read(portion)) != -1) {
+            bos.write(portion,0, in);
+            bos.flush();
+            total += in;
+            if (total >= percentile * percents) {
+                socket.sendUrgentData(percents);
+                ++percents;
+            }
+        }
+        bos.write(portion,0,0);
+        long end = System.currentTimeMillis();
+        bis.close();
+        return end - start;
     }
 }

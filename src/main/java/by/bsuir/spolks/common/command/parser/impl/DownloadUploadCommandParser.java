@@ -14,7 +14,7 @@ import static by.bsuir.spolks.common.command.params.CommandParams.NAMED_PARAM_FI
  * @author v2.tarasevich
  * @since 13.10.18 20:39
  */
-public class DownloadCommandParser implements CommandParser {
+public class DownloadUploadCommandParser implements CommandParser {
 
     @Override
     public CommandParams parse(String commandString) {

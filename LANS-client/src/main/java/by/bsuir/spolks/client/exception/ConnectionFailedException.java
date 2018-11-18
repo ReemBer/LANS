@@ -5,7 +5,7 @@ package by.bsuir.spolks.client.exception;
  * @since 14.11.18 12:31
  */
 public class ConnectionFailedException extends Exception {
-    public ConnectionFailedException() {
-        super("Connection with server didn't established.");
+    public ConnectionFailedException(Throwable cause) {
+        super("Connection with server didn't established.", cause);
     }
 }
