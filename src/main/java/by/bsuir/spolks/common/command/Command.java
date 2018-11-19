@@ -3,13 +3,11 @@ package by.bsuir.spolks.common.command;
 import by.bsuir.spolks.common.command.handler.CommandHandler;
 import by.bsuir.spolks.common.command.handler.impl.*;
 import by.bsuir.spolks.common.command.parser.CommandParser;
+import by.bsuir.spolks.common.command.parser.impl.ContinueDownloadParser;
 import by.bsuir.spolks.common.command.parser.impl.DownloadUploadCommandParser;
 import by.bsuir.spolks.common.command.parser.impl.EchoCommandParser;
 import by.bsuir.spolks.common.command.validator.CommandValidator;
-import by.bsuir.spolks.common.command.validator.impl.CloseCommandValidator;
-import by.bsuir.spolks.common.command.validator.impl.DownloadUploadCommandValidator;
-import by.bsuir.spolks.common.command.validator.impl.EchoCommandValidator;
-import by.bsuir.spolks.common.command.validator.impl.TimeCommandValidator;
+import by.bsuir.spolks.common.command.validator.impl.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -58,6 +56,13 @@ public enum Command {
             new DownloadCommandHandler(),
             new DownloadUploadCommandValidator(),
             new DownloadUploadCommandParser()
+    ),
+
+    CONTINUE_DOWNLOAD(
+            CommandNames.CONTINUE_DOWNLOAD,
+            new ContinueDownloadCommandHandler(),
+            new ContinueDownloadCommandValidator(),
+            new ContinueDownloadParser()
     ),
 
     UPLOAD(

@@ -103,6 +103,7 @@ public class CommandService {
                 return;
             }
             int chosenBufSize = dataInputStream.readInt();
+            socketService.setReceiveBuferSize(chosenBufSize);
             long fileSize = dataInputStream.readLong();
             long percentile = fileSize / 100L;
             byte percents = 1;
@@ -124,7 +125,8 @@ public class CommandService {
                 fileSize -= in;
                 total += in;
                 if (total >= percentile * percents) {
-                    controller.writeToConsole(Integer.valueOf(dataInputStream.readByte()).toString() + (percents % 10 == 0 ? "\n" : (percents < 10 ? "   " : " ")));
+                    String receivedPercents = Integer.valueOf(dataInputStream.readByte()).toString();
+                    controller.writeToConsole(receivedPercents + (percents % 10 == 0 ? "\n" : (percents < 10 ? "   " : " ")));
                     ++percents;
                 }
             }

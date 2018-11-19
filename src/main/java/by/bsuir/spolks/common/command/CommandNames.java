@@ -17,4 +17,5 @@ public final class CommandNames {
     public static final String CLOSE = "close";
     public static final String DOWNLOAD = "download";
     public static final String UPLOAD = "upload";
+    public static final String CONTINUE_DOWNLOAD = "continueDownload";
 }

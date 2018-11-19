@@ -60,6 +60,10 @@ public class SocketService {
         return socket.getInputStream();
     }
 
+    public void setReceiveBuferSize(int buferSize) throws IOException {
+        this.socket.setReceiveBufferSize(buferSize);
+    }
+
     public void closeConnection() throws IOException {
         if (!socket.isClosed()) {
             sendCommandWithoutResponse(CLOSE);

@@ -3,6 +3,7 @@ package by.bsuir.spolks.common.command.parser;
 import by.bsuir.spolks.common.command.params.CommandParams;
 import com.google.common.collect.Lists;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -22,7 +23,7 @@ public interface CommandParser {
     String INTEGER_PARAMETER_REGEX = Pattern.compile("\\d+").pattern();
     String BOOLEAN_PARAMETER_REGEX = Pattern.compile("-\\w").pattern();
 
-    List<String> STRING_PARAMETER_PATTERNS = Lists.newArrayList(WORD_REGEX, SINGLE_QUOTED_STRING_REGEX, DOUBLE_QUOTED_STRING_REGEX);
+    List<String> STRING_PARAMETER_PATTERNS = Arrays.asList(WORD_REGEX, SINGLE_QUOTED_STRING_REGEX, DOUBLE_QUOTED_STRING_REGEX);
 
     CommandParser NO_PARAMS_PARSER = command -> new CommandParams();
 

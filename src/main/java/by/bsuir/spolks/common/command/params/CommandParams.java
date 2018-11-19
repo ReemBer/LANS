@@ -18,9 +18,10 @@ public class CommandParams {
 
     public static final String NAMED_PARAM_FILE_PATH = "filePath";
     public static final String NAMED_PARAM_BUFFER_SIZE = "bufsize";
+    public static final String NAMED_PARAM_DOWNLOADED_SIZE = "downloadedSize";
 
-    private Map<String, Object> namedParams = Maps.newLinkedHashMap();
-    private List<Object> orderedParams = Lists.newArrayList();
+    private Map<String, Object> namedParams = new LinkedHashMap<>();
+    private List<Object> orderedParams = new ArrayList<>();
 
     public CommandParams(List<Object> parameters) {
         orderedParams.addAll(parameters);

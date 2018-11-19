@@ -24,7 +24,6 @@ public class UploadCommandHandler implements CommandHandler {
             String filePath = filePaths[filePaths.length - 1];
             int bufferSize = (Integer) context.getParam(NAMED_PARAM_BUFFER_SIZE);
             socket.setKeepAlive(true);
-            socket.setSendBufferSize(bufferSize);
             DataOutputStream dos = new DataOutputStream(out);
             DataInputStream dis = new DataInputStream(inp);
             boolean clientReady = dis.readBoolean();
@@ -33,6 +32,8 @@ public class UploadCommandHandler implements CommandHandler {
             }
             long fileSize = dis.readLong();
             bufferSize = (int) Math.min(bufferSize, fileSize);
+            socket.setReceiveBufferSize(bufferSize);
+            bufferSize = socket.getReceiveBufferSize();
             dos.writeInt(bufferSize);
             BufferedInputStream bis = new BufferedInputStream(inp);
             byte[] portion = new byte[bufferSize];
