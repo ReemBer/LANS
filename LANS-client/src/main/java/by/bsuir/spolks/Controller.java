@@ -1,5 +1,6 @@
 package by.bsuir.spolks;
 
+import by.bsuir.spolks.client.exception.FileSendingInterruptedException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -37,6 +38,8 @@ public class Controller {
 
     @FXML
     private TextField preferredBufferSize;
+
+    private boolean downloadInterrupted;
 
     @FXML
     public void initialize() {
@@ -125,8 +128,18 @@ public class Controller {
     @FXML
     private void downloadFile() {
         try {
-            commandService.download(filePath.getText(), Integer.valueOf(preferredBufferSize.getText()), this);
-        } catch (CommandSendingException e) {
+            if (downloadInterrupted) {
+                establishConnection();
+                commandService.continueDownload(this);
+            } else {
+                commandService.download(filePath.getText(), Integer.valueOf(preferredBufferSize.getText()), this, false, 0);
+            }
+            downloadInterrupted = false;
+        } catch (FileSendingInterruptedException e) {
+            downloadInterrupted = true;
+            commandService = null;
+        }
+        catch (CommandSendingException e) {
 
         }
     }

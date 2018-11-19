@@ -24,6 +24,7 @@ public class SocketService {
 
     public SocketService(String host, int port) throws IOException {
         this.socket = new Socket(host, port);
+        this.socket.setKeepAlive(true);
         this.socket.setOOBInline(true);
         this.socketWriter = Optional.of(socket.getOutputStream())
                 .map(OutputStreamWriter::new)
@@ -60,8 +61,8 @@ public class SocketService {
         return socket.getInputStream();
     }
 
-    public void setReceiveBuferSize(int buferSize) throws IOException {
-        this.socket.setReceiveBufferSize(buferSize);
+    public void setReceiveBufferSize(int bufferSize) throws IOException {
+        this.socket.setReceiveBufferSize(bufferSize);
     }
 
     public void closeConnection() throws IOException {
@@ -71,6 +72,18 @@ public class SocketService {
             socketWriter.close();
             socketReader.close();
             socket.close();
+            socket = null;
+            connected = false;
+        }
+    }
+
+    public void closeSocket() throws IOException {
+        if (!socket.isClosed()) {
+            socketDIS.close();
+            socketWriter.close();
+            socketReader.close();
+            socket.close();
+            socket = null;
             connected = false;
         }
     }
